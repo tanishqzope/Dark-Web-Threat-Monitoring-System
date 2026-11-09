@@ -1,25 +1,27 @@
 # 🛡️ Dark Web Threat Intelligence & Browser Activity Monitoring System
 
+[![CI Build](https://github.com/tanishqzope/Dark-Web-Threat-Monitoring-System/actions/workflows/tests.yml/badge.svg)](https://github.com/tanishqzope/Dark-Web-Threat-Monitoring-System/actions/workflows/tests.yml)
 [![Python Version](https://img.shields.io/badge/Python-3.11%20%7C%203.12-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![Framework](https://img.shields.io/badge/Framework-Streamlit-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
 [![Database](https://img.shields.io/badge/Database-SQLite-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![Visualizations](https://img.shields.io/badge/Visualizations-Plotly-3F4F75?logo=plotly&logoColor=white)](https://plotly.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code Style](https://img.shields.io/badge/Code%20Style-Black-black.svg)](https://github.com/psf/black)
 
-A modern, real-time cybersecurity monitoring and threat intelligence platform built with **Python**, **Streamlit**, and **SQLite**. The system continuously monitors operating system and browser processes, detects unauthorized tools (dark web browsers, terminal consoles, administrative utilities), enforces configurable defensive policies (Log, Alert, Terminate), logs security telemetry, sends instant email notifications, and visualizes comprehensive threat metrics in an interactive SOC dashboard.
+A real-time cybersecurity monitoring, process surveillance, and threat intelligence platform developed with **Python**, **Streamlit**, and **SQLite**. The system actively detects unauthorized dark web browsers, malicious executables, administrative consoles, and registry manipulation tools. It enforces dynamic automated policies (**Log Only**, **Email Alert**, or **Automatic Process Termination**), records granular event logs in a relational database, sends instant SMTP email alerts, and visualizes comprehensive threat telemetry in an interactive SOC dashboard.
 
 ---
 
-## 📌 Key Features
+## 📌 Key Capabilities
 
-- **🔍 Real-Time Process Surveillance:** Continuously polls and tracks process lifecycles via `psutil` to detect newly spawned processes.
-- **🔐 Secure Authentication & RBAC:** User registration and login protected with salted **Bcrypt** password hashing, featuring Role-Based Access Control (`Admin` and `User`).
-- **🛡️ Database-Driven Threat Rules Engine:** All detection criteria and severity classifications (`Low`, `Medium`, `High`, `Critical`) are stored dynamically in SQLite, allowing rule modifications without code redeployments.
-- **⚙️ Dynamic Security Policies & Auto-Block:** Configure rule-specific responses (Log, Email Alert, or Immediate Process Termination) directly from the UI.
-- **📊 Security Operations Center (SOC) Dashboard:** Real-time visual monitoring with autorefresh, KPI metric cards, threat severity banners, and live activity feeds.
-- **📈 Advanced Analytics:** Donut status breakdowns, process frequency rankings, category distributions, threat scoring gauges, and interactive time-series trends using Plotly.
-- **📋 Searchable Security Audit Logs:** Search, filter, and export threat event logs directly to CSV for compliance and forensics.
-- **📧 Automated SMTP Alerts:** Real-time email dispatch notifying security administrators upon high-risk or blocked threat detections.
+- **🔍 Real-Time Process Surveillance:** Continuously scans operating system process lifecycles with `psutil` to catch newly spawned processes.
+- **🔐 Secure Authentication & RBAC:** User accounts protected with salted **Bcrypt** cryptographic password hashing, supporting **Admin** and **User** role tiers.
+- **🛡️ Database-Driven Threat Rules Engine:** All detection criteria and severity classifications (`Low`, `Medium`, `High`, `Critical`) are stored dynamically in SQLite — configure and update rules on the fly without restarting code.
+- **⚙️ Dynamic Security Policies & Auto-Block:** Configure rule-specific responses (Log, Email Alert, or Immediate Process Termination) directly from the dashboard.
+- **📊 Security Operations Center (SOC) Dashboard:** Real-time visual monitoring with auto-refresh intervals, live KPI metric cards, threat severity alerts, and continuous activity feeds.
+- **📈 Advanced Threat Analytics:** Plotly-powered Donut status charts, process frequency rankings, category distributions, threat scoring gauges (0–100), and interactive time-series timeline graphs.
+- **📋 Searchable Security Audit Logs:** Search, filter, and export threat event logs directly to CSV for compliance, reporting, and forensic review.
+- **📧 Automated SMTP Alerts:** Instant email notifications dispatched to security personnel upon high-risk or blocked threat detections.
 - **👨‍💼 Centralized Admin Panel:** Search, promote, demote, and manage user accounts with safeguard constraints against self-demotion or orphan administrator accounts.
 - **🧪 Built-in Test Suite:** Full automated test coverage (`test_system.py`) verifying database integrity, authentication, threat rules, sessions, metrics, and visualization components.
 
@@ -29,43 +31,108 @@ A modern, real-time cybersecurity monitoring and threat intelligence platform bu
 
 ```mermaid
 flowchart TD
-    subgraph User Space
-        A[User / Security Analyst] -->|Logs In| B[Authentication & RBAC]
-        B -->|Creates| C[Session Management]
+    subgraph Client & Session
+        A[Security Analyst / User] -->|Authenticates| B[Bcrypt Login & RBAC]
+        B -->|Generates| C[Session Manager]
     end
 
-    subgraph Monitoring Engine
-        D[Operating System Processes] -->|Polled by psutil| E[Real-Time Process Monitor]
-        E -->|Checks Active Rules| F[(Threat Rules in SQLite)]
-        E -->|Evaluates Policies| G{Security Policy}
+    subgraph Surveillance Engine
+        D[OS Processes] -->|Polled by psutil| E[Real-Time Process Monitor]
+        E -->|Matches Process Name| F[(SQLite Threat Rules Engine)]
+        E -->|Evaluates Risk & Policy| G{Defensive Action Engine}
     end
 
-    subgraph Actions & Alerts
-        G -->|Log Only| H[(Audit Logs Database)]
-        G -->|Log + Email| I[SMTP Email Dispatcher]
-        G -->|Block / Kill| J[Process Termination]
+    subgraph Automated Policy Actions
+        G -->|Low Risk| H[(Security Event Logs)]
+        G -->|Medium / High Risk| I[SMTP Email Alert Dispatcher]
+        G -->|Critical / Auto-Block| J[Process Termination via SIGKILL]
         I --> H
         J --> H
     end
 
-    subgraph Visualization
-        H -->|Queries Records| K[Streamlit SOC Dashboard]
-        K --> L[Plotly Analytics & Charts]
-        K --> M[CSV Export & Reporting]
-        H -.->|Optional Connector| N[Power BI Historical Analytics]
+    subgraph Visualization & Analytics
+        H -->|Fetches Events| K[Streamlit SOC Dashboard]
+        K --> L[Plotly Real-Time Visualizations]
+        K --> M[Searchable Logs & CSV Export]
+        H -.->|Historical Feed| N[Power BI Historical Modeling]
     end
 ```
 
 ---
 
+## 📸 Complete Visual Tour
+
+### 🔐 1. Authentication & Access Control
+| User Login Interface | User Account Registration |
+| :---: | :---: |
+| ![Login](assets/screenshots/auth-login.jpg) | ![Register](assets/screenshots/auth-register.jpg) |
+| *Bcrypt-secured login verifying user identity and roles.* | *Self-service account registration with email validation.* |
+
+---
+
+### 🏠 2. Security Operations Center (SOC) Dashboard
+| System Health & Component Status | Threat Metrics & Severity Gauge |
+| :---: | :---: |
+| ![SOC Status](assets/screenshots/dashboard-soc-status.jpg) | ![Metrics Gauge](assets/screenshots/dashboard-metrics-gauge.jpg) |
+| *Live health indicators for Monitor, Database, Logger, Auth & Policies.* | *Dynamic Threat Score (0–100) and critical event count metrics.* |
+
+| Threat Status & Distribution Charts | Live Activity Feed & Recent Alerts |
+| :---: | :---: |
+| ![Dashboard Charts](assets/screenshots/dashboard-charts.jpg) | ![Alerts Feed](assets/screenshots/dashboard-alerts-feed.jpg) |
+| *Plotly Donut chart for Allowed / Detected / Blocked events.* | *Real-time event alerts stream updating every 2–3 seconds.* |
+
+---
+
+### 📈 3. Deep Threat Analytics
+| Category & User Risk Distribution | Process Frequency & Timeline Trends |
+| :---: | :---: |
+| ![Categories and Users](assets/screenshots/analytics-categories-users.jpg) | ![Process Timeline](assets/screenshots/analytics-process-timeline.jpg) |
+| *Incident breakdown by tool category (Browser, Admin Tool, Dark Web).* | *Horizontal process bar chart & cumulative timeline graph.* |
+
+---
+
+### 📋 4. Security Audit Logs & Notification Center
+| Searchable Event Logs Table (with CSV Export) | Centralized Notification Center |
+| :---: | :---: |
+| ![Security Logs](assets/screenshots/security-logs.jpg) | ![Notifications](assets/screenshots/notification-center.jpg) |
+| *Full audit trail with timestamp, process, severity, and CSV export.* | *Color-coded notification alerts sorted by incident criticality.* |
+
+---
+
+### 🛡️ 5. Threat Rules Engine & Policy Customization
+| Process Monitoring Toggles | Security Policy Actions (Log / Alert / Block) |
+| :---: | :---: |
+| ![Monitoring Settings](assets/screenshots/settings-monitoring.jpg) | ![Policy Settings](assets/screenshots/settings-policy.jpg) |
+| *Selective process switches for Chrome, Edge, PowerShell, Tor, etc.* | *Granular response rules mapped per severity tier.* |
+
+| Threat Rules Database Inventory | Add & Edit Custom Rules Form |
+| :---: | :---: |
+| ![Threat Rules](assets/screenshots/threat-rules.jpg) | ![Threat Rule Actions](assets/screenshots/threat-rule-actions.jpg) |
+| *Live database rules list with enabled/disabled status.* | *Dynamic forms to register new suspicious executables.* |
+
+---
+
+### 👨‍💼 6. Administration, Power BI & Email Alerts
+| User Management Admin Panel | Automated Gmail Alert Dispatch |
+| :---: | :---: |
+| ![Admin Panel](assets/screenshots/admin-panel.jpg) | ![Email Alert](assets/screenshots/email-alert.jpg) |
+| *Role promotion, demotion, and account management tools.* | *Real-time alert email triggered upon blocked process execution.* |
+
+| Historical Power BI Analytics | Platform Overview & Tech Specifications |
+| :---: | :---: |
+| ![Power BI Dashboard](assets/screenshots/powerbi-dashboard.jpg) | ![About Platform](assets/screenshots/about-tech-stack.jpg) |
+| *Multi-year attack trend modeling, malware families, and geo-analysis.* | *System information, architecture footprint, and technology stack.* |
+
+---
+
 ## 🛠️ Technology Stack
 
-| Component | Technology | Description |
+| Category | Technology | Purpose |
 | :--- | :--- | :--- |
-| **Language** | Python 3.11 / 3.12 | Core backend and business logic |
+| **Language** | Python 3.11 / 3.12 | Core backend, process monitoring, and data pipelines |
 | **Frontend / Web UI** | Streamlit | Real-time interactive SOC dashboard |
-| **Database** | SQLite 3 | Relational store for users, threat rules, and event logs |
-| **System Inspection** | Psutil | Cross-platform process and system monitoring |
+| **Database** | SQLite 3 | Relational database for logs, users, and threat rules |
+| **Process Inspection** | Psutil | Operating system process lifecycle monitoring |
 | **Cryptography** | Bcrypt | Password hashing and salt verification |
 | **Visualizations** | Plotly & Plotly Express | Interactive charts (Donut, Bar, Scatter, Gauge) |
 | **Data Processing** | Pandas | Log manipulation, filtering, and aggregation |
@@ -78,35 +145,57 @@ flowchart TD
 
 ```text
 Dark-Web-Threat-Monitoring-System/
-├── dashboard.py           # Main Streamlit web application & SOC view
-├── monitor.py             # Background process monitoring engine
-├── detector.py            # Process baseline initialization & delta detection
-├── database.py            # SQLite schema initialization & database queries
-├── login.py               # Login & user registration interface
-├── user_auth.py           # Bcrypt password verification & user management
-├── session.py             # Active user session handler
-├── settings.py            # Configuration loader and defaults
-├── settings.json          # Persisted security policy and monitor switches
-├── threat_rules.py        # Threat rule management interface
-├── admin.py               # Administrator panel for user roles
-├── charts.py              # Plotly chart definitions
-├── ui.py                  # HTML/CSS themes, badges, and metric cards
-├── utils.py               # Log querying, threat score calculation & filters
-├── logger.py              # Event logging dispatcher
-├── notifications.py       # Notification center view
-├── email_service.py       # SMTP notification integration
-├── system_status.py       # Health check probes for system components
-├── create_tables.py       # Database schema initialization script
-├── make_admin.py          # CLI utility to promote users to Admin
-├── test_system.py         # Automated unit and integration test suite
-├── requirements.txt       # Python package dependencies
-├── run_dashboard.bat      # Windows one-click dashboard launcher
-├── run_monitor.bat        # Windows one-click monitor launcher
-├── .env.example           # SMTP credential configuration template
-├── LICENSE                # MIT License
-├── README.md              # Project documentation
+├── .github/
+│   └── workflows/
+│       └── tests.yml          # GitHub Actions automated CI workflow
+├── dashboard.py               # Main Streamlit web application & SOC view
+├── monitor.py                 # Background process monitoring engine
+├── detector.py                # Process baseline initialization & delta detection
+├── database.py                # SQLite schema initialization & database queries
+├── login.py                   # Login & user registration interface
+├── user_auth.py               # Bcrypt password verification & user management
+├── session.py                 # Active user session handler
+├── settings.py                # Configuration loader and defaults
+├── settings.json              # Persisted security policy and monitor switches
+├── threat_rules.py            # Threat rule management interface
+├── admin.py                   # Administrator panel for user roles
+├── charts.py                  # Plotly chart definitions
+├── ui.py                      # HTML/CSS themes, badges, and metric cards
+├── utils.py                   # Log querying, threat score calculation & filters
+├── logger.py                  # Event logging dispatcher
+├── notifications.py           # Notification center view
+├── email_service.py           # SMTP notification integration
+├── system_status.py           # Health check probes for system components
+├── create_tables.py           # Database schema initialization script
+├── make_admin.py              # CLI utility to promote users to Admin
+├── test_system.py             # Automated unit and integration test suite
+├── requirements.txt           # Python package dependencies
+├── run_dashboard.bat          # Windows one-click dashboard launcher
+├── run_monitor.bat            # Windows one-click monitor launcher
+├── .env.example               # SMTP credential configuration template
+├── LICENSE                    # MIT License
+├── README.md                  # Project documentation
 └── assets/
-    └── screenshots/       # Application screenshots & UI previews
+    └── screenshots/           # Screenshots & UI documentation
+        ├── auth-login.jpg
+        ├── auth-register.jpg
+        ├── dashboard-soc-status.jpg
+        ├── dashboard-metrics-gauge.jpg
+        ├── dashboard-charts.jpg
+        ├── dashboard-alerts-feed.jpg
+        ├── analytics-categories-users.jpg
+        ├── analytics-process-timeline.jpg
+        ├── security-logs.jpg
+        ├── notification-center.jpg
+        ├── settings-monitoring.jpg
+        ├── settings-policy.jpg
+        ├── threat-rules.jpg
+        ├── threat-rule-actions.jpg
+        ├── admin-panel.jpg
+        ├── email-alert.jpg
+        ├── powerbi-dashboard.jpg
+        ├── about-features.jpg
+        └── about-tech-stack.jpg
 ```
 
 ---
@@ -211,47 +300,6 @@ Ran 9 tests in 4.4s
 
 OK
 ```
-
----
-
-## 📸 Screenshots & Previews
-
-### 🔐 Authentication Module
-| Login Interface | User Registration |
-| :---: | :---: |
-| ![Login](assets/screenshots/login.png) | ![Register](assets/screenshots/register.png) |
-
----
-
-### 🏠 Security Operations Center (SOC)
-| Dashboard Overview | System Metrics & Threat Level |
-| :---: | :---: |
-| ![Dashboard](assets/screenshots/dashboard_home.png) | ![Metrics](assets/screenshots/dashboard_metrics.png) |
-
-| Live Activity Feed | Security Event Logs |
-| :---: | :---: |
-| ![Live Logs](assets/screenshots/dashboard_logs.png) | ![Alerts](assets/screenshots/dashboard_alerts.png) |
-
----
-
-### 📈 Threat Analytics
-| Category & User Distributions | Time Series Threat Activity |
-| :---: | :---: |
-| ![Analytics](assets/screenshots/analytics_charts.png) | ![Timeline](assets/screenshots/analytics_timeline.png) |
-
----
-
-### 🛡️ Threat Rules & Security Policies
-| Threat Rules Engine | Policy & Monitoring Settings |
-| :---: | :---: |
-| ![Rules](assets/screenshots/threatrule.png) | ![Settings](assets/screenshots/settings-policy.png) |
-
----
-
-### 👨‍💼 Admin Panel & Power BI
-| User Management Panel | Historical Power BI Reporting |
-| :---: | :---: |
-| ![Admin](assets/screenshots/admin-panel.png) | ![Power BI](assets/screenshots/powerbi-dashboard.png) |
 
 ---
 
