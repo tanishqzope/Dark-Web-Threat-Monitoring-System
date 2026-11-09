@@ -1,0 +1,16 @@
+{
+    "monitor_chrome": true,
+    "monitor_edge": true,
+    "monitor_firefox": true,
+    "monitor_powershell": true,
+    "monitor_cmd": true,
+    "monitor_regedit": true,
+    "monitor_tor": true,
+    "email_alerts": true,
+    "auto_block": true,
+    "refresh_interval": 3,
+    "low_action": "Log",
+    "medium_action": "Email + Block",
+    "high_action": "Email + Block",
+    "critical_action": "Log"
+}

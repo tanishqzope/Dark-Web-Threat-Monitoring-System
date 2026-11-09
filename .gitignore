@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment Variables & Secrets
+.env
+.env.local
+
+# VS Code & IDEs
+.vscode/
+.idea/
+
+# Streamlit
+.streamlit/
+
+# Dynamic Session & Runtime Logs
+session.json
+log.txt
+*.log
+
+# Test cache
+.pytest_cache/
+
+# OS Files
+Thumbs.db
+.DS_Store
